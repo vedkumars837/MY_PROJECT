@@ -1,70 +1,87 @@
-# 📐 Pure Python $k$-Nearest Neighbors (k-NN) Classifier
+# 👕 T-Shirt Size Predictor: k-Nearest Neighbors (k-NN) from Scratch
 
-A **zero-dependency** implementation of the $k$-Nearest Neighbors (k-NN) algorithm written entirely using the **Python Standard Library**.
+## 1. 🚀 Project Overview
+This project is an implementation of the **k-Nearest Neighbors (k-NN)** machine learning algorithm built entirely from scratch in Python, without relying on advanced external libraries (like `scikit-learn` or `pandas`).
 
-This project's goal is to demonstrate the core logic of similarity-based classification by building a lightweight classifier that categorizes a new data point (e.g., a person's height and weight) based on the class of its closest neighbors in a predefined dataset. 
+The goal is to classify a new user's optimal T-shirt size ('Small' or 'Large') based on two input features: **Height (cm)** and **Weight (kg)**. It serves as an excellent demonstration of core machine learning principles, particularly distance calculation and classification by majority vote.
 
 ---
 
-## ✨ Why This Project is Important
+## 2. ✨ Key Features
+* **Pure Python Implementation:** The k-NN algorithm, including the distance function and prediction logic, is implemented using only standard Python functionality.
+* **Euclidean Distance:** Utilizes the Euclidean formula to mathematically calculate the "closeness" between the input user and existing data points.
+    $$
+    \text{Distance} = \sqrt{(h_{new} - h_{existing})^2 + (w_{new} - w_{existing})^2}
+    $$
+* **Custom Dataset:** Uses a small, hardcoded dataset to train the model, making the process transparent and easy to trace.
+* **Dynamic User Input:** Prompts the user to enter their height and weight for real-time prediction.
+* **Classification by Voting:** Determines the predicted size by letting the **k** closest neighbors vote on the outcome.
 
-| Feature | Benefit |
+---
+
+## 3. 🛠️ Technologies/Tools Used
+* **Language:** Python 3.x
+* **Core Libraries:** The built-in `math` module (specifically for the square root function).
+* **Concepts:** Euclidean Geometry, List Comprehensions, Sorting Algorithms, Data Classification.
+
+---
+
+## 4. ⚙️ Installation & Running the Project
+
+### Prerequisites
+You only need to have **Python 3.x** installed on your system.
+
+### Steps to Run
+1.  **Clone the repository (if applicable) or save the file:**
+    ```bash
+    # If using Git
+    git clone [your-repo-link]
+    cd t-shirt-knn-classifier 
+    
+    # If not using Git, ensure your Python file is saved (e.g., as main.py)
+    ```
+
+2.  **Execute the script:**
+    Run the main Python file from your terminal:
+    ```bash
+    python main.py
+    ```
+
+---
+
+## 5. 🧪 Instructions for Testing
+
+The script will prompt you for input in the terminal. The model will automatically use $k=3$ (3 nearest neighbors) for prediction.
+
+### Example Test Case 1: Expected 'Small T-Shirt'
+| Prompt | Input |
 | :--- | :--- |
-| **Zero Dependencies** | The script runs on **any** Python installation. **No `pip install` required!** Ideal for embedded systems or simple scripts. |
-| **Core Understanding** | By manually implementing the distance formula, you gain a deep understanding of how machine learning measures **"similarity"** in data. |
-| **Customizable** | The underlying dataset can be easily swapped for any $N$-dimensional classification problem (e.g., flower species, fruit features, or spam detection). |
+| Enter your height in cm: | **155** |
+| Enter your weight in kg: | **47** |
+| **Predicted Size:** | **Small T-Shirt** |
+
+### Example Test Case 2: Expected 'Large T-Shirt'
+| Prompt | Input |
+| :--- | :--- |
+| Enter your height in cm: | **178** |
+| Enter your weight in kg: | **75** |
+| **Predicted Size:** | **Large T-Shirt** |
+
+### Example Test Case 3: Borderline Case (Test Point)
+Try the following point to see how the distance calculation works on the boundary:
+| Prompt | Input |
+| :--- | :--- |
+| Enter your height in cm: | **176** |
+| Enter your weight in kg: | **72** |
+| **Predicted Size:** | **Large T-Shirt** |
+*(This point is closer to the Large T-Shirt cluster)*
 
 ---
 
-## 🚀 How It Works: The k-NN Algorithm
+## 📸 Screenshots (Optional)
 
-The k-Nearest Neighbors algorithm is a non-parametric, **lazy learning** method. Classification is achieved by a majority vote of its $k$ closest neighbors.
+<img width="1146" height="215" alt="Screenshot 2025-11-22 162842" src="https://github.com/user-attachments/assets/f9cd34c6-6535-4801-8137-4ffc00975ad8" />
 
-### Algorithm Steps
 
-1.  **Input:** Define a new, unlabeled data point $P_{\text{new}}$ (e.g., `[170, 65]`).
-2.  **Distance Calculation:** Calculate the **Euclidean Distance** between $P_{\text{new}}$ and *every* training point $P_{\text{train}}$ in the dataset.
-    $$D(P_1, P_2) = \sqrt{\sum_{i=1}^{n} (x_{1i} - x_{2i})^2}$$
-3.  **Sort:** Store all distances and their corresponding labels, then **sort** the list from smallest distance to largest distance.
-4.  **Select Neighbors:** Select the **top $k$** points (e.g., $k=3$) with the smallest distances.
-5.  **Vote:** The predicted class is the **most frequent label** among the $k$ selected neighbors.
+<img width="1152" height="227" alt="Screenshot 2025-11-22 162144" src="https://github.com/user-attachments/assets/725073a2-e07a-45ed-a3af-0eb5bc4b15d8" />
 
----
-
-## 📋 Implementation Details
-
-The classifier is built exclusively with standard Python features:
-
-* **Data Storage:** Python **Lists of Lists** mimic a spreadsheet or database.
-* **Distance:** The built-in **`math`** module is used for the square root.
-* **Sorting:** Python's built-in **`.sort()`** function and a `lambda` expression handle the distance ranking.
-
-### Dataset Schema (Example: T-Shirt Sizing)
-
-| Feature 1 (Index 0) | Feature 2 (Index 1) | Label (Index 2) |
-| :---: | :---: | :---: |
-| **Height (cm)** | **Weight (kg)** | **T-Shirt Size** |
-| 150 | 45 | 'Small T-Shirt' |
-| 178 | 75 | 'Large T-Shirt' |
-| ... | ... | ... |
-
----
-
-## 💻 Code Structure
-
-| Function | Purpose | Tools Used |
-| :--- | :--- | :--- |
-| `dataset` | The hardcoded list of lists containing the training data. | List |
-| `calculate_distance()` | Calculates the Euclidean distance between two points. | `math.sqrt()` |
-| `get_neighbors()` | Calculates all distances, sorts them, and returns the top $k$ neighbors. | `.sort(key=lambda x: x[1])` |
-| `predict_classification()` | Takes the labels from the $k$ neighbors and finds the majority (the "vote"). | `max(set(), key=list.count)` |
-
----
-
-## ⚙️ Installation and Execution
-
-1.  Save the provided Python code as a file named `knn_classifier.py`.
-2.  Run the file from your terminal:
-
-```bash
-python knn_classifier.py
